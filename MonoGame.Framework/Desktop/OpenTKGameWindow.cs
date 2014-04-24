@@ -62,13 +62,11 @@ namespace Microsoft.Xna.Framework
         private bool _isMouseHidden;
         private bool _isMouseInBounds;
 #endif
-		//private DisplayOrientation _currentOrientation;
         private IntPtr _windowHandle;
         private INativeWindow window;
 
         protected Game game;
         private List<Microsoft.Xna.Framework.Input.Keys> keys;
-		//private OpenTK.Graphics.GraphicsContext backgroundContext;
 
         // we need this variables to make changes beetween threads
         private WindowState windowState;
