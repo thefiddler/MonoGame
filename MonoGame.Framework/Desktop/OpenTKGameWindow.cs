@@ -320,7 +320,16 @@ namespace Microsoft.Xna.Framework
 #endif
 
             window.KeyPress += OnKeyPress;
-            
+
+            if (Configuration.RunningOnSdl2)
+            {
+                // As of SDL 2.0.3, window borders cannot be modified at runtime.
+                // The rest of the backends do not suffer from this limitation.
+                // Todo: remove if this is fixed in a future SDL version.
+                Game.Log("SDL2 cannot change between resizable and fixed windows at runtime.");
+                _isResizable = true;
+            }
+
             // Set the window icon.
             var assembly = Assembly.GetEntryAssembly();
             if(assembly != null)
