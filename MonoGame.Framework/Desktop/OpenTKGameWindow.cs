@@ -103,7 +103,6 @@ namespace Microsoft.Xna.Framework
 
         public override Rectangle ClientBounds { get { return clientBounds; } }
 
-        // TODO: this is buggy on linux - report to opentk team
         public override bool AllowUserResizing
         {
             get { return _isResizable; }
@@ -316,9 +315,7 @@ namespace Microsoft.Xna.Framework
             window.Resize += OnResize;
             window.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
             window.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyUp);
-#if LINUX
-            window.WindowBorder = WindowBorder.Resizable;
-#endif
+
 #if WINDOWS
             window.MouseEnter += OnMouseEnter;
             window.MouseLeave += OnMouseLeave;
