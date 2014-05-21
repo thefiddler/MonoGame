@@ -145,7 +145,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         new GraphicsAdapter[] {new GraphicsAdapter(Game.Instance.Platform as OpenTKGamePlatform)});
 #else
                     adapters = new ReadOnlyCollection<GraphicsAdapter>(
-                        new GraphicsAdapter[] {new GraphicsAdapter())});
+                        new GraphicsAdapter[] { new GraphicsAdapter() });
 #endif
                 }
                 return adapters;
