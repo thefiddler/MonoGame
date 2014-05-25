@@ -8,8 +8,6 @@ using MonoMac.OpenGL;
 using OpenTK.Graphics.OpenGL;
 #elif GLES
 using OpenTK.Graphics.ES20;
-using RenderbufferTarget = OpenTK.Graphics.ES20.All;
-using RenderbufferStorage = OpenTK.Graphics.ES20.All;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -17,18 +15,18 @@ namespace Microsoft.Xna.Framework.Graphics
     public partial class RenderTarget2D
     {
 #if GLES
-    const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.Renderbuffer;
-    const RenderbufferStorage GLDepthComponent16 = RenderbufferStorage.DepthComponent16;
-    const RenderbufferStorage GLDepthComponent16NonLinear = (RenderbufferStorage)0x8E2C;
-    const RenderbufferStorage GLDepthComponent24 = RenderbufferStorage.DepthComponent24Oes;
-    const RenderbufferStorage GLDepth24Stencil8 = RenderbufferStorage.Depth24Stencil8Oes;
-    const RenderbufferStorage GLStencilIndex8 = RenderbufferStorage.StencilIndex8;
+        const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.Renderbuffer;
+        const RenderbufferInternalFormat GLDepthComponent16 = RenderbufferInternalFormat.DepthComponent16;
+        const RenderbufferInternalFormat GLDepthComponent16NonLinear = (RenderbufferInternalFormat)NvDepthNonlinear.DepthComponent16NonlinearNv;
+        const RenderbufferInternalFormat GLDepthComponent24 = (RenderbufferInternalFormat)OesDepth24.DepthComponent24Oes;
+        const RenderbufferInternalFormat GLDepth24Stencil8 = (RenderbufferInternalFormat)OesPackedDepthStencil.Depth24Stencil8Oes;
+        const RenderbufferInternalFormat GLStencilIndex8 = RenderbufferInternalFormat.StencilIndex8;
 #else
-    const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.RenderbufferExt;
-    const RenderbufferStorage GLDepthComponent16 = RenderbufferStorage.DepthComponent16;
-    const RenderbufferStorage GLDepthComponent24 = RenderbufferStorage.DepthComponent24;
-    const RenderbufferStorage GLDepth24Stencil8 = RenderbufferStorage.Depth24Stencil8;
-    const RenderbufferStorage GLStencilIndex8 = RenderbufferStorage.StencilIndex8;
+        const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.RenderbufferExt;
+        const RenderbufferInternalFormat GLDepthComponent16 = RenderbufferInternalFormat.DepthComponent16;
+        const RenderbufferInternalFormat GLDepthComponent24 = RenderbufferInternalFormat.DepthComponent24;
+        const RenderbufferInternalFormat GLDepth24Stencil8 = RenderbufferInternalFormat.Depth24Stencil8;
+        const RenderbufferInternalFormat GLStencilIndex8 = RenderbufferInternalFormat.StencilIndex8;
 #endif
 
     internal int glDepthBuffer;

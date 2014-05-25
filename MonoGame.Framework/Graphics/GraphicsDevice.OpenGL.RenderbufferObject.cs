@@ -17,8 +17,6 @@ using OpenTK.Graphics.OpenGL;
 
 #if GLES
 using OpenTK.Graphics.ES20;
-using RenderbufferStorage = OpenTK.Graphics.ES20.All;
-using RenderbufferTarget = OpenTK.Graphics.ES20.All;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
@@ -47,7 +45,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 return id;
             }
 
-            public virtual void Storage(RenderbufferTarget target, RenderbufferStorage internalFormat, int width, int height)
+            public virtual void Storage(RenderbufferTarget target, RenderbufferInternalFormat internalFormat, int width, int height)
             {
                 GL.RenderbufferStorage(target, internalFormat, width, height);
                 GraphicsExtensions.CheckGLError();
@@ -78,7 +76,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 return id;
             }
 
-            public override void Storage(RenderbufferTarget target, RenderbufferStorage internalFormat, int width, int height)
+        public override void Storage(RenderbufferTarget target, RenderbufferInternalFormat internalFormat, int width, int height)
             {
                 GL.Ext.RenderbufferStorage(target, internalFormat, width, height);
                 GraphicsExtensions.CheckGLError();
