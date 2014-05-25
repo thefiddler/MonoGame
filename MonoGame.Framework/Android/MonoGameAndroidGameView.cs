@@ -125,7 +125,7 @@ namespace Microsoft.Xna.Framework
             Android.Util.Log.Debug("MonoGame", "MonoGameAndroidGameView.CreateFrameBuffer");
             try
             {
-                GLContextVersion = GLContextVersion.Gles2_0;
+                //GLContextVersion = GLContextVersion.Gles2_0;
                 try
                 {
                     int depth = 0;
@@ -165,7 +165,7 @@ namespace Microsoft.Xna.Framework
                     }
                 }
                 Android.Util.Log.Debug("MonoGame", "Created format {0}", GraphicsContext.GraphicsMode);
-                All status = GL.CheckFramebufferStatus(All.Framebuffer);
+                var status = GL.CheckFramebufferStatus(All.Framebuffer);
                 Android.Util.Log.Debug("MonoGame", "Framebuffer Status: " + status.ToString());
             }
             catch (Exception)

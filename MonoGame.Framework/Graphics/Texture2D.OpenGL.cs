@@ -648,15 +648,12 @@ namespace Microsoft.Xna.Framework.Graphics
 #if ANDROID
 		private byte[] GetTextureData(int ThreadPriorityLevel)
 		{
-			int framebufferId = -1;
-            int renderBufferID = -1;
-            
-			GL.GenFramebuffers(1, ref framebufferId);
+            int framebufferId = GL.GenFramebuffer();
             GraphicsExtensions.CheckGLError();
             GL.BindFramebuffer(All.Framebuffer, framebufferId);
             GraphicsExtensions.CheckGLError();
-            //renderBufferIDs = new int[currentRenderTargets];
-            GL.GenRenderbuffers(1, ref renderBufferID);
+
+            int renderBufferID = GL.GenRenderbuffer();
             GraphicsExtensions.CheckGLError();
 
             // attach the texture to FBO color attachment point
@@ -677,9 +674,9 @@ namespace Microsoft.Xna.Framework.Graphics
                 All.Renderbuffer, renderBufferID);
             GraphicsExtensions.CheckGLError();
 
-            All status = GL.CheckFramebufferStatus(All.Framebuffer);
+            var status = GL.CheckFramebufferStatus(All.Framebuffer);
 
-            if (status != All.FramebufferComplete)
+            if (status != FramebufferErrorCode.FramebufferComplete)
                 throw new Exception("Error creating framebuffer: " + status);	
 			byte[] imageInfo;
             int sz = 0;
