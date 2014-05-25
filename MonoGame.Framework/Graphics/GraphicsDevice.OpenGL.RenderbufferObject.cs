@@ -45,7 +45,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 return id;
             }
 
-            public virtual void Storage(RenderbufferTarget target, RenderbufferInternalFormat internalFormat, int width, int height)
+            public virtual void Storage(RenderbufferTarget target, RenderbufferStorage internalFormat, int width, int height)
             {
                 GL.RenderbufferStorage(target, internalFormat, width, height);
                 GraphicsExtensions.CheckGLError();
@@ -76,7 +76,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 return id;
             }
 
-        public override void Storage(RenderbufferTarget target, RenderbufferInternalFormat internalFormat, int width, int height)
+            public override void Storage(RenderbufferTarget target, RenderbufferStorage internalFormat, int width, int height)
             {
                 GL.Ext.RenderbufferStorage(target, internalFormat, width, height);
                 GraphicsExtensions.CheckGLError();

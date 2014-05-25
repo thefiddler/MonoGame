@@ -16,17 +16,17 @@ namespace Microsoft.Xna.Framework.Graphics
     {
 #if GLES
         const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.Renderbuffer;
-        const RenderbufferInternalFormat GLDepthComponent16 = RenderbufferInternalFormat.DepthComponent16;
-        const RenderbufferInternalFormat GLDepthComponent16NonLinear = (RenderbufferInternalFormat)NvDepthNonlinear.DepthComponent16NonlinearNv;
-        const RenderbufferInternalFormat GLDepthComponent24 = (RenderbufferInternalFormat)OesDepth24.DepthComponent24Oes;
-        const RenderbufferInternalFormat GLDepth24Stencil8 = (RenderbufferInternalFormat)OesPackedDepthStencil.Depth24Stencil8Oes;
-        const RenderbufferInternalFormat GLStencilIndex8 = RenderbufferInternalFormat.StencilIndex8;
+        const RenderbufferStorage GLDepthComponent16 = RenderbufferStorage.DepthComponent16;
+        const RenderbufferStorage GLDepthComponent16NonLinear = (RenderbufferStorage)NvDepthNonlinear.DepthComponent16NonlinearNv;
+        const RenderbufferStorage GLDepthComponent24 = (RenderbufferStorage)OesDepth24.DepthComponent24Oes;
+        const RenderbufferStorage GLDepth24Stencil8 = (RenderbufferStorage)OesPackedDepthStencil.Depth24Stencil8Oes;
+        const RenderbufferStorage GLStencilIndex8 = RenderbufferStorage.StencilIndex8;
 #else
         const RenderbufferTarget GLRenderbuffer = RenderbufferTarget.RenderbufferExt;
-        const RenderbufferInternalFormat GLDepthComponent16 = RenderbufferInternalFormat.DepthComponent16;
-        const RenderbufferInternalFormat GLDepthComponent24 = RenderbufferInternalFormat.DepthComponent24;
-        const RenderbufferInternalFormat GLDepth24Stencil8 = RenderbufferInternalFormat.Depth24Stencil8;
-        const RenderbufferInternalFormat GLStencilIndex8 = RenderbufferInternalFormat.StencilIndex8;
+        const RenderbufferStorage GLDepthComponent16 = RenderbufferStorage.DepthComponent16;
+        const RenderbufferStorage GLDepthComponent24 = RenderbufferStorage.DepthComponent24;
+        const RenderbufferStorage GLDepth24Stencil8 = RenderbufferStorage.Depth24Stencil8;
+        const RenderbufferStorage GLStencilIndex8 = RenderbufferStorage.StencilIndex8;
 #endif
 
     internal int glDepthBuffer;
