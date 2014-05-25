@@ -17,25 +17,10 @@ using OpenTK.Graphics.OpenGL;
 using GLPrimitiveType = OpenTK.Graphics.OpenGL.PrimitiveType;
 #endif
 
-#if ANGLE
-using OpenTK.Graphics;
-#endif
-
 #if GLES
+using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
-using BeginMode = OpenTK.Graphics.ES20.All;
-using EnableCap = OpenTK.Graphics.ES20.All;
-using TextureTarget = OpenTK.Graphics.ES20.All;
-using BufferTarget = OpenTK.Graphics.ES20.All;
-using BufferUsageHint = OpenTK.Graphics.ES20.All;
-using DrawElementsType = OpenTK.Graphics.ES20.All;
-using GetPName = OpenTK.Graphics.ES20.All;
-using FramebufferErrorCode = OpenTK.Graphics.ES20.All;
-using FramebufferTarget = OpenTK.Graphics.ES20.All;
-using FramebufferAttachment = OpenTK.Graphics.ES20.All;
-using RenderbufferTarget = OpenTK.Graphics.ES20.All;
-using RenderbufferStorage = OpenTK.Graphics.ES20.All;
-using GLPrimitiveType = OpenTK.Graphics.ES20.All;
+using GLPrimitiveType = OpenTK.Graphics.ES20.PrimitiveType;
 #endif
 
 
@@ -70,8 +55,8 @@ namespace Microsoft.Xna.Framework.Graphics
 		const FramebufferAttachment GLColorAttachment0 = FramebufferAttachment.ColorAttachment0;
 		const GetPName GLFramebufferBinding = GetPName.FramebufferBinding;
 		const RenderbufferStorage GLDepthComponent16 = RenderbufferStorage.DepthComponent16;
-		const RenderbufferStorage GLDepthComponent24 = RenderbufferStorage.DepthComponent24Oes;
-		const RenderbufferStorage GLDepth24Stencil8 = RenderbufferStorage.Depth24Stencil8Oes;
+        const RenderbufferStorage GLDepthComponent24 = (RenderbufferStorage)OesDepth24.DepthComponent24Oes;
+        const RenderbufferStorage GLDepth24Stencil8 = (RenderbufferStorage)OesPackedDepthStencil.Depth24Stencil8Oes;
 		const FramebufferErrorCode GLFramebufferComplete = FramebufferErrorCode.FramebufferComplete;
 #endif
 #if !GLES
@@ -217,12 +202,9 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             // Setup extensions.
             List<string> extensions = new List<string>();
-#if GLES
-            var extstring = GL.GetString(RenderbufferStorage.Extensions);            			
-#else
             var extstring = GL.GetString(StringName.Extensions);
-#endif
             GraphicsExtensions.CheckGLError();
+
             if (!string.IsNullOrEmpty(extstring))
             {
                 extensions.AddRange(extstring.Split(' '));
@@ -654,7 +636,10 @@ namespace Microsoft.Xna.Framework.Graphics
 
             var shortIndices = _indexBuffer.IndexElementSize == IndexElementSize.SixteenBits;
 
-			var indexElementType = shortIndices ? DrawElementsType.UnsignedShort : DrawElementsType.UnsignedInt;
+            // Todo: DrawElementsType.UnsignedInt is an extension to ES 2.0
+            // (it is core in GL and ES 3.0). We must check for
+            // "GL_OES_element_index_uint" on ES 2.0.
+            var indexElementType = shortIndices ? DrawElementsType.UnsignedShort : (DrawElementsType)All.UnsignedInt;
             var indexElementSize = shortIndices ? 2 : 4;
 			var indexOffsetInBytes = (IntPtr)(startIndex * indexElementSize);
 			var indexElementCount = GetElementCountArray(primitiveType, primitiveCount);
@@ -767,7 +752,7 @@ namespace Microsoft.Xna.Framework.Graphics
             //Draw
             GL.DrawElements(    PrimitiveTypeGL(primitiveType),
                                 GetElementCountArray(primitiveType, primitiveCount),
-                                DrawElementsType.UnsignedInt,
+                                (DrawElementsType)All.UnsignedInt, // on ES 2.0, UnsignedInt requires GL_OES_element_index_uint
                                 (IntPtr)(ibHandle.AddrOfPinnedObject().ToInt64() + (indexOffset * sizeof(int))));
             GraphicsExtensions.CheckGLError();
 

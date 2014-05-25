@@ -11,17 +11,12 @@ using System.Text;
 using MonoMac.OpenGL;
 #endif
 
-#if (WINDOWS || LINUX) && !GLES
+#if OPENGL && !GLES
 using OpenTK.Graphics.OpenGL;
 #endif
 
 #if GLES
 using OpenTK.Graphics.ES20;
-using FramebufferAttachment = OpenTK.Graphics.ES20.All;
-using FramebufferErrorCode = OpenTK.Graphics.ES20.All;
-using FramebufferTarget = OpenTK.Graphics.ES20.All;
-using RenderbufferTarget = OpenTK.Graphics.ES20.All;
-using TextureTarget = OpenTK.Graphics.ES20.All;
 #endif
 
 namespace Microsoft.Xna.Framework.Graphics
