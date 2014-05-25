@@ -123,12 +123,7 @@ namespace Microsoft.Xna.Framework.Graphics
             pixelShader.ApplySamplerTextureUnits(program);
 
             var linked = 0;
-
-#if GLES && !ANGLE
-            GL.GetProgram(program, GetProgramParameterName.LinkStatus, ref linked);
-#else
             GL.GetProgram(program, GetProgramParameterName.LinkStatus, out linked);
-#endif
             GraphicsExtensions.LogGLError("VertexShaderCache.Link(), GL.GetProgram");
             if (linked == 0)
             {

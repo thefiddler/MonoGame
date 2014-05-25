@@ -191,16 +191,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
             MaxTextureSlots = 16;
 
-#if ANDROID || IOS
-            GL.GetInteger(All.MaxTextureImageUnits, ref MaxTextureSlots);
-            GraphicsExtensions.CheckGLError();
-
-            GL.GetInteger(All.MaxVertexAttribs, ref MaxVertexAttributes);
-            GraphicsExtensions.CheckGLError();
-
-            GL.GetInteger(All.MaxTextureSize, ref _maxTextureSize);
-            GraphicsExtensions.CheckGLError();
-#else
+#if GLES
             GL.GetInteger(GetPName.MaxTextureImageUnits, out MaxTextureSlots);
             GraphicsExtensions.CheckGLError();
 
@@ -209,7 +200,7 @@ namespace Microsoft.Xna.Framework.Graphics
             
             GL.GetInteger(GetPName.MaxTextureSize, out _maxTextureSize);
             GraphicsExtensions.CheckGLError();
-
+#endif
 #if !GLES
 			// Initialize draw buffer attachment array
 			int maxDrawBuffers;
@@ -218,7 +209,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			for (int i = 0; i < maxDrawBuffers; i++)
 				_drawBuffers[i] = (DrawBuffersEnum)(FramebufferAttachment.ColorAttachment0Ext + i);
 #endif
-#endif
+
             _extensions = GetGLExtensions();
         }
 

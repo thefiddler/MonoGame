@@ -124,17 +124,17 @@ namespace Microsoft.Xna.Framework {
 
 			public void GenFramebuffers (int n, ref int framebuffers)
 			{
-				GLES11.Oes.GenFramebuffers (n, ref framebuffers);
+                GLES11.Oes.GenFramebuffers (n, out framebuffers);
 			}
 
 			public void GenRenderbuffers (int n, ref int renderbuffers)
 			{
-				GLES11.Oes.GenRenderbuffers (n, ref renderbuffers);
+                GLES11.Oes.GenRenderbuffers (n, out renderbuffers);
 			}
 
 			public void GetInteger (All name, ref int value)
 			{
-				GLES11.GetInteger ((All11) name, ref value);
+                GLES11.GetInteger ((All11) name, out value);
 			}
 
 			public void Scissor (int x, int y, int width, int height)
@@ -151,7 +151,7 @@ namespace Microsoft.Xna.Framework {
 		private class Gles20Api : IOpenGLApi {
 			public All CheckFramebufferStatus (All target)
 			{
-				return GLES20.CheckFramebufferStatus (target);
+                return (All)GLES20.CheckFramebufferStatus (target);
 			}
 
 			public void BindFramebuffer (All target, int framebuffer)
@@ -182,17 +182,17 @@ namespace Microsoft.Xna.Framework {
 
 			public void GenFramebuffers (int n, ref int framebuffers)
 			{
-				GLES20.GenFramebuffers (n, ref framebuffers);
+                GLES20.GenFramebuffers (n, out framebuffers);
 			}
 
 			public void GenRenderbuffers (int n, ref int renderbuffers)
 			{
-				GLES20.GenRenderbuffers (n, ref renderbuffers);
+                GLES20.GenRenderbuffers (n, out renderbuffers);
 			}
 
 			public void GetInteger (All name, ref int value)
 			{
-				GLES20.GetInteger (name, ref value);
+                GLES20.GetInteger (name, out value);
 			}
 
 			public void Scissor (int x, int y, int width, int height)

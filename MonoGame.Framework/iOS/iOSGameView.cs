@@ -221,7 +221,7 @@ namespace Microsoft.Xna.Framework {
 			_glapi.BindFramebuffer (All.Framebuffer, _framebuffer);
 			
 			// Create our Depth buffer. Color buffer must be the last one bound
-			GL.GenRenderbuffers(1, ref _depthbuffer);
+            _depthbuffer = GL.GenRenderbuffer();
 			GL.BindRenderbuffer(All.Renderbuffer, _depthbuffer);
             GL.RenderbufferStorage (All.Renderbuffer, All.DepthComponent16, viewportWidth, viewportHeight);
 			GL.FramebufferRenderbuffer(All.Framebuffer, All.DepthAttachment, All.Renderbuffer, _depthbuffer);
@@ -240,7 +240,7 @@ namespace Microsoft.Xna.Framework {
 			_glapi.FramebufferRenderbuffer (All.Framebuffer, All.ColorAttachment0, All.Renderbuffer, _colorbuffer);
 			
 			var status = GL.CheckFramebufferStatus (All.Framebuffer);
-			if (status != All.FramebufferComplete)
+            if (status != FramebufferErrorCode.FramebufferComplete)
 				throw new InvalidOperationException (
 					"Framebuffer was not created correctly: " + status);
 

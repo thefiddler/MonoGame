@@ -42,12 +42,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
             public virtual int Generate()
             {
-                int id = 0;
-#if IOS || ANDROID
-                GL.GenRenderbuffers(1, ref id);
-#else
-                GL.GenRenderbuffers(1, out id);
-#endif
+                int id = GL.GenRenderbuffer();
                 GraphicsExtensions.CheckGLError();
                 return id;
             }

@@ -50,12 +50,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
             public virtual int Generate()
             {
-                int id = 0;
-#if IOS || ANDROID
-                GL.GenFramebuffers(1, ref id);
-#else
-                GL.GenFramebuffers(1, out id);
-#endif
+                int id = GL.GenFramebuffer();
                 GraphicsExtensions.CheckGLError();
                 return id;
             }

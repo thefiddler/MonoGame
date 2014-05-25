@@ -621,11 +621,7 @@ namespace Microsoft.Xna.Framework.Graphics
         {
             if (this.glTexture < 0)
             {
-#if IOS || ANDROID
-                GL.GenTextures(1, ref this.glTexture);
-#else
-                GL.GenTextures(1, out this.glTexture);
-#endif
+                this.glTexture = GL.GenTexture();
                 GraphicsExtensions.CheckGLError();
 
                 // For best compatibility and to keep the default wrap mode of XNA, only set ClampToEdge if either
