@@ -63,6 +63,7 @@ namespace Microsoft.Xna.Framework
 		//private DisplayOrientation _currentOrientation;
         private IntPtr _windowHandle;
         private INativeWindow window;
+        private float windowScale = 1.0f; // DPI scaling for this window
 
         protected Game game;
         private List<Microsoft.Xna.Framework.Input.Keys> keys;
@@ -198,7 +199,9 @@ namespace Microsoft.Xna.Framework
             var winRect = new Rectangle(0, 0, winWidth, winHeight);
 
             // If window size is zero, leave bounds unchanged
-            // OpenTK appears to set the window client size to 1x1 when minimizing
+            // Note: some platforms (e.g. X11) set client size to 0x0 when minimizing,
+            // OpenTK converts that to 1x1 in order to avoid application crashes.
+            // Do not resize Resize events if window size is <= 1x1.
             if (winWidth <= 1 || winHeight <= 1)
                 return;
 
@@ -229,8 +232,12 @@ namespace Microsoft.Xna.Framework
             if (updateClientBounds)
             {
                 updateClientBounds = false;
-                window.ClientRectangle = new System.Drawing.Rectangle(targetBounds.X,
-                                     targetBounds.Y, targetBounds.Width, targetBounds.Height);
+
+                // Convert target size to device-dependent pixels.
+                int targetWidth = (int)Math.Round(targetBounds.Width * windowScale);
+                int targetHeight = (int)Math.Round(targetBounds.Height * windowScale);
+                window.ClientRectangle = new System.Drawing.Rectangle(
+                    targetBounds.X, targetBounds.Y, targetWidth, targetHeight);
                 
                 // if the window-state is set from the outside (maximized button pressed) we have to update it here.
                 // if it was set from the inside (.IsFullScreen changed), we have to change the window.
@@ -247,16 +254,8 @@ namespace Microsoft.Xna.Framework
                 if (_isBorderless)
                     desired = WindowBorder.Hidden;
                 else
-#if LINUX
-                    // OpenTK on Linux currently does not allow the window to be resized if the border is fixed.
-                    // We get the resize event for the intended size, then immediately get a resize event for the original size.
-                    // This was preventing GraphicsDeviceManager.PreferredBackBufferWidth and PreferredBackBufferHeight from
-                    // having any effect.
-                    // http://www.opentk.com/node/3132
-                    desired = WindowBorder.Resizable;
-#else
                     desired = _isResizable ? WindowBorder.Resizable : WindowBorder.Fixed;
-#endif
+
                 if (desired != window.WindowBorder && window.WindowState != WindowState.Fullscreen)
                     window.WindowBorder = desired;
 
@@ -306,7 +305,20 @@ namespace Microsoft.Xna.Framework
 
             GraphicsContext.ShareContexts = true;
 
-            window = new NativeWindow();
+            // Create a window with default parameters. Note:
+            // 1. XNA creates fixed-border windows by default
+            // 2. The NativeWindow constructor expects width/
+            // height in device-independent points. When the
+            // user resizes the window programmatically, the
+            // values are specified in pixels.
+            // For correct resizing, we need to calculate the
+            // current DPI setting.
+            const int default_width = 800;
+            const int default_height = 480;
+            window = new NativeWindow(default_width, default_height, "MonoGame",
+                GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default);
+            windowScale = window.ClientSize.Width / (float)default_width;
+
             window.Closing += new EventHandler<CancelEventArgs>(OpenTkGameWindow_Closing);
             window.Resize += OnResize;
             window.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(Keyboard_KeyDown);
@@ -343,9 +355,6 @@ namespace Microsoft.Xna.Framework
 #else
             Mouse.UpdateMouseInfo(window.Mouse);
 #endif
-
-            // Default no resizing
-            AllowUserResizing = false;
 
             // Default mouse cursor hidden 
             SetMouseVisible(false);

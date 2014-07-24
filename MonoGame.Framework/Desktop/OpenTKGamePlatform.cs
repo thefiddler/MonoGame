@@ -241,7 +241,11 @@ namespace Microsoft.Xna.Framework
                 bounds.Width = graphicsDeviceManager.PreferredBackBufferWidth;
                 bounds.Height = graphicsDeviceManager.PreferredBackBufferHeight;
             }
-            
+
+            // we only change window bounds if we are not fullscreen
+            // or if fullscreen mode was just entered
+            if (!graphicsDeviceManager.IsFullScreen || (graphicsDeviceManager.IsFullScreen != isCurrentlyFullScreen))
+                _view.ChangeClientBounds(bounds);
 
             // Now we set our Presentation Parameters
             var device = (GraphicsDevice)graphicsDeviceManager.GraphicsDevice;
@@ -251,19 +255,14 @@ namespace Microsoft.Xna.Framework
             if (device != null)
             {
                 PresentationParameters parms = device.PresentationParameters;
-                parms.BackBufferHeight = (int)bounds.Height;
-                parms.BackBufferWidth = (int)bounds.Width;
+                parms.BackBufferHeight = _view.Window.Height;
+                parms.BackBufferWidth = _view.Window.Width;
             }
 
             if (graphicsDeviceManager.IsFullScreen != isCurrentlyFullScreen)
             {                
                 _view.ToggleFullScreen();
             }
-
-            // we only change window bounds if we are not fullscreen
-            // or if fullscreen mode was just entered
-            if (!graphicsDeviceManager.IsFullScreen || (graphicsDeviceManager.IsFullScreen != isCurrentlyFullScreen))
-                _view.ChangeClientBounds(bounds);
 
             // store the current fullscreen state
             isCurrentlyFullScreen = graphicsDeviceManager.IsFullScreen;
